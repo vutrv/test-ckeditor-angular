@@ -1,0 +1,13 @@
+<div class="editor-container">
+  <h2>Tạo bài viết mới</h2>
+  
+  <ckeditor 
+    [editor]="Editor" 
+    [config]="config" 
+    [(ngModel)]="editorData">
+  </ckeditor>
+
+  <div class="actions" style="margin-top: 20px;">
+    <button (click)="saveContent()">Lưu bài viết</button>
+  </div>
+</div>
