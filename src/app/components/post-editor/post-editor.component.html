@@ -4,7 +4,8 @@
   <ckeditor 
     [editor]="Editor" 
     [config]="config" 
-    [(ngModel)]="editorData">
+    [(ngModel)]="editorData"
+    (ready)="onReady($event)">
   </ckeditor>
 
   <div class="actions" style="margin-top: 20px;">

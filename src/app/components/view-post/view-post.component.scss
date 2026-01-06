@@ -7,6 +7,14 @@
 }
 
 .rendered-content {
+  ::ng-deep img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto; 
+    border-radius: 4px;
+  }
+
   ::ng-deep table {
     width: 100%;
     border-collapse: collapse;

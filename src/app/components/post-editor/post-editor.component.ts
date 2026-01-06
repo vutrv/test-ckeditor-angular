@@ -9,36 +9,51 @@ import { Router } from '@angular/router';
 })
 export class PostEditorComponent implements OnInit {
   public Editor = ClassicEditor;
-
   public editorData = '';
 
   public config = {
     toolbar: [
       'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
-      'insertTable', 
-      'undo', 'redo'
+      'insertTable', 'imageUpload', 'mediaEmbed', 'undo', 'redo'
     ],
     table: {
-      contentToolbar: [
-        'tableColumn', 
-        'tableRow', 
-        'mergeTableCells'
-      ]
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
     }
   };
+
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  onReady(editor: any): void {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return new MyUploadAdapter(loader);
+    };
   }
 
   saveContent() {
     if (this.editorData) {
       localStorage.setItem('preview_post', this.editorData);
-      
       this.router.navigate(['/view-post']);
     } else {
       alert('Please input data before saving!');
     }
   }
+}
 
+class MyUploadAdapter {
+  constructor(private loader: any) {}
+
+  upload() {
+    return this.loader.file.then((file: any) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve({ default: reader.result });
+      };
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    }));
+  }
+
+  abort() {}
 }
